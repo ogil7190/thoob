@@ -1,0 +1,19 @@
+{
+  "name": "thoob",
+  "version": "1.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "IS_DEV=false node index.js",
+    "test": "IS_DEV=true TOKEN=w10001 node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mongodb": "^3.6.6",
+    "puppeteer": "^9.1.1",
+    "puppeteer-extra": "^3.1.9",
+    "puppeteer-extra-plugin-stealth": "^2.7.8"
+  }
+}
