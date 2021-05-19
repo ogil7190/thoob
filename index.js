@@ -1,3 +1,7 @@
+
+const fs = require('fs');
+const path = require('path');
+const express = require('express');
 const { DB_CONFIG } = require('./constants');
 const {
 	Collections,
@@ -7,8 +11,29 @@ const {
 } = require('./services/db.service');
 const { randomID } = require('./utils');
 const { zygote } = require('./services/heartbeat.service');
+const { router } = require('./routes');
 
 var _global_ = {};
+const directory = 'temp';
+const PORT = process.env.PORT || 3000;
+const app = express();
+
+app.use(express.json());
+app.use(router);
+app.listen(PORT);
+app.use('/ss', express.static(__dirname + `/${directory}`));
+
+function cleanDir( directory ) {
+    fs.readdir(directory, (err, files) => {
+        if (err) throw err;
+      
+        for (const file of files) {
+          fs.unlink(path.join(directory, file), err => {
+            if (err) throw err;
+          });
+        }
+    });
+}
 
 async function initSelf() {
 	const token = process.env.TOKEN;
@@ -31,6 +56,14 @@ async function initSelf() {
 }
 
 (async () => {
+	try {
+		if( fs.existsSync(directory) ){
+			cleanDir( directory );
+		}
+		else {
+			fs.mkdirSync(directory);
+		}
+	} catch {}
 	const isConnected = await initDB({
 		connectionUrl: DB_CONFIG.DB_CONNECTION_URL,
 		dbName: DB_CONFIG.DB_NAME

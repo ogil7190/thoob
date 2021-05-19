@@ -50,6 +50,9 @@ async function zygote( global ) {
         }
 
         await heartBeat( worker.workerId );
+        if( global.session ) {
+            await global.session.screenshot({path: 'temp/ss.png', fullPage : true });
+        }
     }, HEART_BEAT_INTERVAL );
 }
 
