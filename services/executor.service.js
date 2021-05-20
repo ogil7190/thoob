@@ -30,29 +30,28 @@ async function sleepTillPaused(global) {
 }
 
 async function executeWork(global) {
-    const { work = {} } = global;
-    if( work ) {
-        for(let i=0; i<work.targets.length; i++){
+    if( global.work ) {
+        for(let i=0; i<global.work.targets.length; i++){
     
             if(global.IS_PAUSED) {
                 await sleepTillPaused(global);
             }
     
-            await executeIDProcedure(work.targets[i], work, global);
+            await executeIDProcedure(global.work.targets[i], global.work, global);
             console.log('*** A UNIT WORK DONE ***');
             
             //@todo log into logs.
     
-            if( work.allowRandom && (i % work.randomInterval === 0) ) {
-                await executeRandomProcedure(work, global);
+            if( global.work.allowRandom && (i % global.work.randomInterval === 0) ) {
+                await executeRandomProcedure(global.work, global);
             }
         }
     
-        if( work.repeat ) {
+        if( global.work.repeat ) {
             await executeWork( global );
         } else {
             console.log('*** DONE ***');
-            global.previousWork = work;
+            global.previousWork = global.work;
             global.work = 'DONE';
         }
     }
@@ -67,7 +66,7 @@ async function search(value, session) {
     await input(SEARCH_TARGET, value, session);
     await sleep(randomBtwn(400, 800));
     await session.keyboard.press('Enter');
-    await sleep(randomBtwn(5, 10) * 1000);
+    await sleep(randomBtwn(5, 8) * 1000);
 
     // if auto corrected occured
     await click(CORRECTION_TARGET, session);
@@ -75,7 +74,7 @@ async function search(value, session) {
 
     // open the first video
     await click(SEARCH_TILE_TARGET, session);
-    await sleep(randomBtwn(5, 10) * 1000);
+    await sleep(randomBtwn(5, 8) * 1000);
 
     //@todo can add scroll to make it more authentic
 }
@@ -103,7 +102,7 @@ async function executeIDProcedure(id, work, global) {
     await executeAfter(slotTime, async () => {
         WatchDog.coolDown();
         await click(HOME_TARGET, global.session);
-        await sleep(randomBtwn(4, 8) * 1000);
+        await sleep(randomBtwn(5, 10) * 1000);
     });
 }
 
@@ -129,16 +128,16 @@ async function executeRandomProcedure(work, global) {
             WatchDog.coolDown();
         }
         await click(HOME_TARGET, global.session);
-        await sleep(randomBtwn(4, 8) * 1000);
+        await sleep(randomBtwn(5, 10) * 1000);
     });
 }
 
 /************************************************/
 async function navigate(url, session) {
-    await session.setDefaultNavigationTimeout(10 * 1000 );
-    await session.goto( url );
     try {
-        await session.waitForNavigation({ waitUntil : 'networkidle2' });
+        // await session.setDefaultNavigationTimeout(10 * 1000 );
+        await session.goto( url, {waitUntil: 'load', timeout: 0});
+        // await session.waitForNavigation({ waitUntil : 'networkidle2', time });
         console.log('*** True Navigation ***');
     } catch {
         console.log('*** Leap of faith ***');

@@ -31,7 +31,7 @@ async function sniff(session) {
     while(IS_ACTIVE) {
         await sleep(randomBtwn(5, 7) * 1000);
         console.log('*** SNIFFING ***');
-        await hunt(session);
+        IS_ACTIVE && await hunt(session);
     }
 }
 

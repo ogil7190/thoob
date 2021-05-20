@@ -6,7 +6,7 @@ const WORK_FINDER_INTERVAL = 1;
 
 async function workFinder( global ) {
     const work = await getLatestWork();
-    if( work.compulsory && work.compulsory.stop ) {
+    if( work && work.compulsory && work.compulsory.stop ) {
         if( work.compulsory.code === 'YELLOW' ) {
             console.log('*** CODE YELLOW ENCOUNTERED ***');
             console.log('*** PUASED ***');
