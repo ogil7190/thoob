@@ -59,14 +59,14 @@ async function executeWork(global) {
 
 async function search(value, session) {
     const SEARCH_TARGET = 'input#search';
-    const SEARCH_TILE_TARGET = '#dismissible.ytd-video-renderer';
+    const SEARCH_TILE_TARGET = '.ytd-search #dismissible';
     const CORRECTION_TARGET = '.original-link';
 
     //input the id into search bar
     await input(SEARCH_TARGET, value, session);
     await sleep(randomBtwn(400, 800));
     await session.keyboard.press('Enter');
-    await sleep(randomBtwn(5, 8) * 1000);
+    await sleep(randomBtwn(5, 10) * 1000);
 
     // if auto corrected occured
     await click(CORRECTION_TARGET, session);
@@ -74,7 +74,7 @@ async function search(value, session) {
 
     // open the first video
     await click(SEARCH_TILE_TARGET, session);
-    await sleep(randomBtwn(5, 8) * 1000);
+    await sleep(randomBtwn(5, 10) * 1000);
 
     //@todo can add scroll to make it more authentic
 }
