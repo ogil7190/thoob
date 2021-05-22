@@ -4,7 +4,7 @@ var IS_ACTIVE = true;
 
 async function hanldeType( element, type ) {
     if( element && type && IS_ACTIVE ) {
-        console.log('*** FOUND IT ***');
+        // console.log('*** FOUND IT ***');
         const options = { delay : randomBtwn( 60, 120) };
         switch( type ) {
             case 'SKIPABLE': {
@@ -20,8 +20,6 @@ async function hunt(session) {
     const elements = await session.$$(TARGET);
     if( elements.length > 0 ) {
        await hanldeType(elements[0], 'SKIPABLE');
-    } else {
-        console.log('*** CLEAN ***');
     }
 }
 
@@ -30,7 +28,7 @@ async function sniff(session) {
 
     while(IS_ACTIVE) {
         await sleep(randomBtwn(5, 7) * 1000);
-        console.log('*** SNIFFING ***');
+        // console.log('*** SNIFFING ***');
         IS_ACTIVE && await hunt(session);
     }
 }

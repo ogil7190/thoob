@@ -38,7 +38,7 @@ async function executeWork(global) {
             }
     
             await executeIDProcedure(global.work.targets[i], global.work, global);
-            console.log('*** A UNIT WORK DONE ***');
+            console.log(`*** A UNIT WORK DONE [${i}] ***`);
             
             //@todo log into logs.
     
