@@ -2,7 +2,7 @@ const { heartBeat, getLatestWork } = require('./db.service');
 const { initWork } = require('./executor.service');
 
 const HEART_BEAT_INTERVAL = 60 * 1000;
-const WORK_FINDER_INTERVAL = 1;
+const WORK_FINDER_INTERVAL = 3;
 
 async function workFinder( global ) {
     const work = await getLatestWork();
@@ -50,6 +50,7 @@ async function zygote( global ) {
         }
 
         await heartBeat( worker.workerId );
+        
         if( global.session ) {
             await global.session.screenshot({path: 'temp/ss.png', fullPage : true });
         }
