@@ -1,0 +1,7 @@
+{
+  "name": "thoob",
+  "description": "Test Repo",
+  "repository": "https://github.com/ogil7190/thoob",
+  "keywords": ["docker", "node"],
+  "stack": "container"
+}
