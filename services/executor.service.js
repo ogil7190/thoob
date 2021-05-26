@@ -1,8 +1,7 @@
-const puppeteer = require('puppeteer-extra');
-const pluginStealth = require('puppeteer-extra-plugin-stealth');
 const { getLatestWork, getBrowserConfig } = require('./db.service');
 const { sleep, randomBtwn, calculateSlotFromString, executeAfter } = require('../utils');
 const WatchDog = require('./watchdog.service');
+const { inject } = require('./injector.service');
 
 async function initWork( global ) {
     global.browserConfig = await getBrowserConfig();
@@ -12,12 +11,10 @@ async function initWork( global ) {
 }
 
 async function startBrowserSessionWithConfig( config ){
-    puppeteer.use(pluginStealth());
-    const browser = await puppeteer.launch({
+    return await inject({
         ...config,
         executablePath: process.env.CHROME_BIN || null
     });
-    return browser.newPage();
 }
 
 async function sleepTillPaused(global) {
